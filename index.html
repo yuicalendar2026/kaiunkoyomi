@@ -122,25 +122,25 @@ body{font-family:'Shippori Mincho','Noto Serif JP',serif;background:var(--cream)
 /* DAY DETAIL MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(44,26,14,0.55);z-index:2000;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
 .modal-overlay.open{display:flex;animation:fadeIn 0.2s ease}
-.modal-sheet{width:100%;max-width:430px;background:var(–warm);border-radius:24px 24px 0 0;padding:0 0 32px;max-height:85vh;overflow-y:auto;animation:slideUp 0.3s ease}
+.modal-sheet{width:100%;max-width:430px;background:#fdf6ec;border-radius:24px 24px 0 0;padding:0 0 32px;max-height:85vh;overflow-y:auto;animation:slideUp 0.3s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.modal-handle{width:40px;height:4px;background:rgba(92,61,46,0.2);border-radius:2px;margin:12px auto 0}
-.modal-header{padding:14px 18px 10px;border-bottom:1px solid rgba(201,168,76,0.2)}
-.modal-date-big{font-size:20px;font-weight:700;color:var(–ink);letter-spacing:1px}
+.modal-handle{width:40px;height:4px;background:rgba(92,61,46,0.25);border-radius:2px;margin:12px auto 0}
+.modal-header{padding:14px 18px 10px;border-bottom:1px solid rgba(201,168,76,0.3);background:#fdf6ec}
+.modal-date-big{font-size:20px;font-weight:700;color:#2c1a0e;letter-spacing:1px}
 .modal-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .modal-badge{font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px}
-.modal-badge.ry{background:var(–gold-l);color:var(–gold-d);border:1px solid var(–gold)}
-.modal-badge.sekki{background:#d4edda;color:var(–green);border:1px solid var(–green)}
-.modal-badge.moon{background:#1a1a2e;color:var(–gold-l);border:none}
-.modal-badge.lucky{background:#ffe0e3;color:var(–dark-red);border:1px solid var(–red)}
-.modal-body{padding:14px 18px}
-.modal-memo-ttl{font-size:12px;font-weight:700;color:var(–gold-d);margin-bottom:8px;letter-spacing:1px}
-.modal-memo-area{width:100%;min-height:100px;padding:11px 13px;background:rgba(255,255,255,0.7);border:1.5px solid rgba(201,168,76,0.3);border-radius:12px;font-family:‘Shippori Mincho’,‘Noto Serif JP’,serif;font-size:13px;color:var(–ink);resize:none;outline:none;line-height:1.7;transition:border-color 0.2s}
-.modal-memo-area:focus{border-color:var(–gold);box-shadow:0 0 0 3px rgba(201,168,76,0.1)}
-.modal-memo-area::placeholder{color:rgba(92,61,46,0.3)}
-.modal-save-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:11px;background:linear-gradient(135deg,var(–gold-d),var(–gold));color:white;border:none;border-radius:12px;font-family:‘Shippori Mincho’,serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:1px;margin-top:10px}
+.modal-badge.ry{background:#e8d4a0;color:#8b6914;border:1px solid #c9a84c}
+.modal-badge.sekki{background:#d4edda;color:#2d6a4f;border:1px solid #2d6a4f}
+.modal-badge.moon{background:#1a1a2e;color:#e8d4a0;border:none}
+.modal-badge.lucky{background:#ffe0e3;color:#8b1a1a;border:1px solid #c0392b}
+.modal-body{padding:14px 18px;background:#fdf6ec}
+.modal-memo-ttl{font-size:13px;font-weight:700;color:#8b6914;margin-bottom:8px;letter-spacing:1px}
+.modal-memo-area{width:100%;min-height:100px;padding:11px 13px;background:#ffffff;border:1.5px solid rgba(201,168,76,0.4);border-radius:12px;font-family:‘Shippori Mincho’,‘Noto Serif JP’,serif;font-size:13px;color:#2c1a0e;resize:none;outline:none;line-height:1.7;transition:border-color 0.2s}
+.modal-memo-area:focus{border-color:#c9a84c;box-shadow:0 0 0 3px rgba(201,168,76,0.15)}
+.modal-memo-area::placeholder{color:rgba(92,61,46,0.4)}
+.modal-save-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:11px;background:linear-gradient(135deg,#8b6914,#c9a84c);color:white;border:none;border-radius:12px;font-family:‘Shippori Mincho’,serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:1px;margin-top:10px}
 .modal-save-btn:hover{opacity:0.88}
-.modal-close-btn{position:absolute;top:14px;right:18px;width:28px;height:28px;border-radius:50%;border:1px solid rgba(92,61,46,0.2);background:rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(–ink-l)}
+.modal-close-btn{position:absolute;top:14px;right:18px;width:28px;height:28px;border-radius:50%;border:1px solid rgba(92,61,46,0.3);background:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:#5c3d2e}
 .modal-header{position:relative}
 
 /* DIRECTION */
@@ -239,19 +239,19 @@ body{font-family:'Shippori Mincho','Noto Serif JP',serif;background:var(--cream)
 /* SETTINGS MODAL */
 .settings-overlay{position:fixed;inset:0;background:rgba(44,26,14,0.55);z-index:2100;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
 .settings-overlay.open{display:flex;animation:fadeIn 0.2s ease}
-.settings-sheet{width:100%;max-width:430px;background:var(–warm);border-radius:24px 24px 0 0;padding:0 0 36px;max-height:80vh;overflow-y:auto;animation:slideUp 0.3s ease;position:relative}
-.settings-handle{width:40px;height:4px;background:rgba(92,61,46,0.2);border-radius:2px;margin:12px auto 0}
-.settings-header{padding:14px 18px 10px;border-bottom:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:space-between}
-.settings-title{font-size:17px;font-weight:700;color:var(–ink);display:flex;align-items:center;gap:8px}
-.settings-close{width:28px;height:28px;border-radius:50%;border:1px solid rgba(92,61,46,0.2);background:rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(–ink-l)}
-.settings-body{padding:18px}
+.settings-sheet{width:100%;max-width:430px;background:#fdf6ec;border-radius:24px 24px 0 0;padding:0 0 36px;max-height:80vh;overflow-y:auto;animation:slideUp 0.3s ease;position:relative}
+.settings-handle{width:40px;height:4px;background:rgba(92,61,46,0.25);border-radius:2px;margin:12px auto 0}
+.settings-header{padding:14px 18px 10px;border-bottom:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:space-between;background:#fdf6ec}
+.settings-title{font-size:17px;font-weight:700;color:#2c1a0e;display:flex;align-items:center;gap:8px}
+.settings-close{width:28px;height:28px;border-radius:50%;border:1px solid rgba(92,61,46,0.3);background:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:#5c3d2e}
+.settings-body{padding:18px;background:#fdf6ec}
 .settings-section{margin-bottom:20px}
-.settings-sec-ttl{font-size:12px;font-weight:700;color:var(–gold-d);letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.settings-sec-ttl{font-size:12px;font-weight:700;color:#8b6914;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .settings-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.settings-label{font-size:13px;color:var(–ink-l);min-width:56px}
-.settings-input{flex:1;padding:9px 12px;background:rgba(255,255,255,0.7);border:1.5px solid rgba(201,168,76,0.3);border-radius:10px;font-family:‘Shippori Mincho’,serif;font-size:14px;color:var(–ink);outline:none;transition:border-color 0.2s}
-.settings-input:focus{border-color:var(–gold);box-shadow:0 0 0 3px rgba(201,168,76,0.1)}
-.settings-save-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;background:linear-gradient(135deg,var(–gold-d),var(–gold));color:white;border:none;border-radius:12px;font-family:‘Shippori Mincho’,serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:1px;margin-top:4px}
+.settings-label{font-size:13px;color:#5c3d2e;min-width:56px}
+.settings-input{flex:1;padding:9px 12px;background:#ffffff;border:1.5px solid rgba(201,168,76,0.4);border-radius:10px;font-family:‘Shippori Mincho’,serif;font-size:14px;color:#2c1a0e;outline:none;transition:border-color 0.2s}
+.settings-input:focus{border-color:#c9a84c;box-shadow:0 0 0 3px rgba(201,168,76,0.1)}
+.settings-save-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;background:linear-gradient(135deg,#8b6914,#c9a84c);color:white;border:none;border-radius:12px;font-family:‘Shippori Mincho’,serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:1px;margin-top:4px}
 .settings-save-btn:hover{opacity:0.88}
 .honmyojo-card{background:linear-gradient(135deg,rgba(44,26,14,0.9),rgba(139,105,20,0.8));border-radius:16px;padding:16px;text-align:center;margin-bottom:14px}
 .honmyojo-num{font-size:52px;font-weight:900;color:var(–gold-l);line-height:1}
