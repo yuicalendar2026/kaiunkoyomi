@@ -853,20 +853,17 @@ const LUCKY_DIR_TABLE={
 
 function calcHonmyojo(birthDateStr){
   if(!birthDateStr) return null;
-  const dt=new Date(birthDateStr);
-  let y=dt.getFullYear();
-  const m=dt.getMonth()+1, d=dt.getDate();
+  const parts=birthDateStr.split('-');
+  let y=parseInt(parts[0]);
+  const m=parseInt(parts[1]);
+  const d=parseInt(parts[2]);
   // 節分（2月4日）前は前年扱い
   if(m<2||(m===2&&d<4)) y--;
-  // 年の各桁を1桁になるまで足す
-  function digitSum(n){
-    let s=Math.abs(n);
-    while(s>9) s=[...String(s)].reduce((a,c)=>a+parseInt(c),0);
-    return s;
-  }
-  const ds=digitSum(y);
-  let star=(10-ds)%9;
-  if(star<=0) star+=9;
+  // 基準年1999=一白水星(1) で9年周期逆回り
+  let offset=(1999-y)%9;
+  if(offset<0) offset+=9;
+  let star=1+offset;
+  if(star>9) star-=9;
   return star;
 }
 
@@ -1164,4 +1161,4 @@ initHome();
 </script>
 
 </body>
-</html>
+</html>>
