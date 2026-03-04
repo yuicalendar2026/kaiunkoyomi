@@ -64,7 +64,7 @@ body{font-family:'Shippori Mincho','Noto Serif JP',serif;background:var(--cream)
 .needle-svg{width:52px;height:52px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));animation:spinSlow 24s linear infinite}
 .dir-badges{display:flex;flex-direction:column;gap:3px;margin-top:6px}
 .dir-b{display:flex;align-items:center;justify-content:space-between;padding:3px 7px;border-radius:20px;font-size:10px;font-weight:600}
-.num-big{font-size:50px;font-weight:900;line-height:1;background:linear-gradient(135deg,var(–ink),var(–gold-d));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
+.num-big{font-size:50px;font-weight:900;line-height:1;background:linear-gradient(135deg,var(–ink),var(–gold-d));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:var(–ink);text-align:center}
 .num-desc{font-size:12px;font-weight:700;color:var(–red);text-align:center;margin:2px 0}
 .num-sub{font-size:10px;color:var(–ink-l);text-align:center;line-height:1.5}
 .num-sub strong{color:var(–red)}
@@ -176,7 +176,7 @@ body{font-family:'Shippori Mincho','Noto Serif JP',serif;background:var(--cream)
 .num-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .num-card{padding:10px 6px;background:rgba(255,255,255,0.6);border:1px solid rgba(201,168,76,0.2);border-radius:12px;text-align:center;cursor:pointer;transition:all 0.2s}
 .num-card:hover,.num-card.active{background:linear-gradient(135deg,var(–gold-l),rgba(201,168,76,0.25));border-color:var(–gold)}
-.num-card-n{font-size:26px;font-weight:900;background:linear-gradient(135deg,var(–ink),var(–gold-d));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.num-card-n{font-size:26px;font-weight:900;background:linear-gradient(135deg,var(–ink),var(–gold-d));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:var(–ink)}
 .num-card-d{font-size:9px;font-weight:600;color:var(–ink-l);margin-top:1px;line-height:1.3}
 
 /* MESSAGE */
@@ -467,7 +467,11 @@ body{font-family:'Shippori Mincho','Noto Serif JP',serif;background:var(--cream)
         </div>
         <div class="settings-row">
           <span class="settings-label">生年月日</span>
-          <input class="settings-input" id="settingsBirth" type="date" placeholder="生年月日">
+          <div style="display:flex;gap:6px;flex:1">
+            <select class="settings-input" id="birthYear" style="flex:2;padding:9px 6px"></select>
+            <select class="settings-input" id="birthMonth" style="flex:1;padding:9px 6px"></select>
+            <select class="settings-input" id="birthDay" style="flex:1;padding:9px 6px"></select>
+          </div>
         </div>
         <button class="settings-save-btn" id="settingsSaveBtn">✦ 保存する</button>
       </div>
@@ -873,10 +877,40 @@ function saveUserProfile(obj){
   try{localStorage.setItem('kaiun_profile',JSON.stringify(obj))}catch{}
 }
 
+function initBirthSelects(){
+  const yEl=document.getElementById('birthYear');
+  const mEl=document.getElementById('birthMonth');
+  const dEl=document.getElementById('birthDay');
+  yEl.innerHTML='<option value="">年</option>';
+  for(let y=new Date().getFullYear();y>=1920;y--) yEl.innerHTML+=`<option value="${y}">${y}年</option>`;
+  mEl.innerHTML='<option value="">月</option>';
+  for(let m=1;m<=12;m++) mEl.innerHTML+=`<option value="${String(m).padStart(2,'0')}">${m}月</option>`;
+  dEl.innerHTML='<option value="">日</option>';
+  for(let d=1;d<=31;d++) dEl.innerHTML+=`<option value="${String(d).padStart(2,'0')}">${d}日</option>`;
+}
+
+function getBirthFromSelects(){
+  const y=document.getElementById('birthYear').value;
+  const m=document.getElementById('birthMonth').value;
+  const d=document.getElementById('birthDay').value;
+  if(!y||!m||!d) return '';
+  return `${y}-${m}-${d}`;
+}
+
+function setBirthToSelects(birthStr){
+  if(!birthStr) return;
+  const parts=birthStr.split('-');
+  if(parts.length<3) return;
+  document.getElementById('birthYear').value=parts[0];
+  document.getElementById('birthMonth').value=parts[1];
+  document.getElementById('birthDay').value=parts[2];
+}
+
 function openSettings(){
+  initBirthSelects();
   const p=getUserProfile();
   document.getElementById('settingsName').value=p.name||'';
-  document.getElementById('settingsBirth').value=p.birth||'';
+  setBirthToSelects(p.birth||'');
   if(p.birth) showHonmyojoResult(p.birth);
   document.getElementById('settingsOverlay').classList.add('open');
 }
@@ -897,7 +931,8 @@ document.getElementById('settingsClose').addEventListener('click',closeSettings)
 document.getElementById('settingsOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('settingsOverlay'))closeSettings()});
 document.getElementById('settingsSaveBtn').addEventListener('click',()=>{
   const name=document.getElementById('settingsName').value.trim();
-  const birth=document.getElementById('settingsBirth').value;
+  const birth=getBirthFromSelects();
+  if(!birth){alert('生年月日を選択してください');return;}
   saveUserProfile({name,birth});
   if(birth) showHonmyojoResult(birth);
   const btn=document.getElementById('settingsSaveBtn');
