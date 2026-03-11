@@ -177,5 +177,22 @@ href="https://www.google.com/maps/search/神社/@${lat},${lon},12z">
 })
 
 }
+const rokuyoNames = ["大安","赤口","先勝","友引","先負","仏滅"];
 
+function getRokuyo(year, month, day){
+
+// 旧暦簡易計算
+const base = new Date(1900,0,31); // 旧暦基準
+const target = new Date(year,month-1,day);
+
+const diff = Math.floor((target-base)/86400000);
+
+const lunarMonth = Math.floor(diff / 29.5306) % 12 + 1;
+const lunarDay = diff % 29 + 1;
+
+const index = (lunarMonth + lunarDay) % 6;
+
+return rokuyoNames[index];
+
+}
 generateCalendar()
