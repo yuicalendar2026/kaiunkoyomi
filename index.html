@@ -6,240 +6,183 @@
     <title>2026 ゆるっと開運カレンダー 🌈</title>
     <style>
         :root {
-            --bg-color: #fff9f0;
-            --main-color: #ff9a9e;
-            --lucky-gold: #ffcc00;
+            --bg-color: #fffaf2;
+            --main-color: #ffb7b7;
+            --text-color: #5d5d5d;
         }
         body {
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            font-family: 'Hiragino Maru Gothic ProN', 'Meiryo', sans-serif;
             background-color: var(--bg-color);
-            color: #555;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
+            color: var(--text-color);
+            margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
         }
-        h1 { font-size: 1.5rem; color: #ff7675; margin-bottom: 10px; }
-        .calendar-container {
+        .calendar-card {
             background: white;
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            max-width: 400px;
-            width: 100%;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 450px; width: 100%;
         }
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-weight: bold;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; font-size: 1.2rem; font-weight: bold; color: #ff7675;
         }
         .grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;
         }
-        .day-label { font-size: 0.7rem; text-align: center; color: #aaa; padding-bottom: 5px; }
+        .weekday { font-size: 0.7rem; text-align: center; color: #bbb; margin-bottom: 5px; }
         .day {
-            aspect-ratio: 1 / 1;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-            border: 1px solid #f0f0f0;
+            aspect-ratio: 1/1.2; border: 1px solid #f9f9f9; border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; padding: 4px;
+            cursor: pointer; position: relative; font-size: 0.9rem; background: #fff;
         }
-        .day:hover { background-color: #fff0f0; }
-        .day.today { background-color: #ffeaa7; font-weight: bold; border: 2px solid #fdcb6e; }
-        .lucky-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: var(--lucky-gold);
-            position: absolute;
-            bottom: 4px;
+        .day:hover { background: #fff0f0; }
+        .day.today { border: 2px solid #ff9a9e; background: #fff5f5; }
+        .icon-container {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 2px;
         }
-        .note-indicator {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background-color: #81ecec;
-            position: absolute;
-            top: 4px;
-            right: 4px;
+        .icon { font-size: 0.8rem; }
+        .note-dot {
+            width: 4px; height: 4px; background: #81ecec; border-radius: 50%;
+            position: absolute; top: 4px; right: 4px;
         }
         /* モーダル */
         #modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 100;
         }
         .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            width: 80%;
-            max-width: 300px;
-            text-align: center;
+            background: white; padding: 25px; border-radius: 20px; width: 85%; max-width: 320px;
         }
         textarea {
-            width: 100%;
-            height: 80px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            box-sizing: border-box;
-            font-size: 14px;
+            width: 100%; height: 100px; border-radius: 12px; border: 1px solid #eee;
+            padding: 10px; margin: 15px 0; font-size: 1rem; box-sizing: border-box;
         }
-        .btn {
-            background: var(--main-color);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
+        .btn-save {
+            background: #ff9a9e; color: white; border: none; padding: 10px 20px;
+            border-radius: 20px; font-weight: bold; width: 100%; cursor: pointer;
         }
-        .lucky-info {
-            font-size: 0.75rem;
-            color: #e67e22;
-            margin-bottom: 5px;
-            display: block;
-        }
+        .lucky-label { font-size: 0.8rem; color: #e67e22; background: #fff3e0; padding: 2px 8px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <h1>ゆるっと開運 2026 🌈</h1>
+    <h1 style="font-size: 1.4rem; margin-bottom: 15px;">2026 ゆるっと開運 🌈</h1>
     
-    <div class="calendar-container">
+    <div class="calendar-card">
         <div class="header">
-            <span id="monthDisplay">2026年 3月</span>
+            <button onclick="changeMonth(-1)" style="border:none; background:none; cursor:pointer;">◀</button>
+            <span id="currentMonth">2026年 3月</span>
+            <button onclick="changeMonth(1)" style="border:none; background:none; cursor:pointer;">▶</button>
         </div>
-        <div class="grid" id="calendarGrid">
-            </div>
+        <div class="grid" id="calendarGrid"></div>
     </div>
-
-    <p style="font-size: 0.8rem; color: #888; margin-top: 15px;">
-        💡 黄金の点は「吉日」です。タップして予定を保存！
-    </p>
 
     <div id="modal">
         <div class="modal-content">
-            <h3 id="modalDate" style="margin-top:0">日付</h3>
-            <span id="luckyText" class="lucky-info"></span>
+            <div id="modalDate" style="font-weight:bold; margin-bottom:5px;"></div>
+            <div id="luckyText"></div>
             <textarea id="noteInput" placeholder="今日の予定や願い事は？"></textarea>
-            <button class="btn" onclick="saveNote()">保存する</button>
-            <button class="btn" style="background:#ccc; margin-left:5px" onclick="closeModal()">閉じる</button>
+            <button class="btn-save" onclick="saveNote()">保存する</button>
+            <button onclick="closeModal()" style="border:none; background:none; margin-top:10px; color:#aaa; width:100%; cursor:pointer;">閉じる</button>
         </div>
     </div>
 
     <script>
-        // 2026年の主要な開運日データ
-        const luckyDays = {
-            "2026-03-14": "🌾一粒万倍日",
-            "2026-03-20": "✨宇宙元旦 (春分)",
-            "2026-03-26": "🐯寅の日 (金運UP)",
-            "2026-04-13": "🌾一粒万倍日",
-            "2026-05-04": "☀️天赦日＋🐯最強日",
-            "2026-05-20": "☀️天赦日",
-            "2026-07-19": "☀️天赦日＋🌾",
-            "2026-10-01": "☀️天赦日＋🌾",
-            "2026-12-16": "☀️天赦日＋🌾"
+        let currentYear = 2026;
+        let currentMonth = 2; // 3月 (0-indexed)
+
+        // 固定の吉日データ (一粒万倍日、天赦日、新月満月)
+        const fixedLuckyDays = {
+            "2026-03-14": "🌾", "2026-03-19": "🌑新月", "2026-03-26": "🌾", "2026-03-29": "🌾",
+            "2026-04-01": "🌑新月", "2026-04-10": "🌾", "2026-04-13": "🌾", "2026-04-22": "🌾", "2026-04-25": "🌾",
+            "2026-05-04": "☀️天赦日", "2026-05-20": "☀️天赦日",
+            "2026-07-19": "☀️天赦日", "2026-10-01": "☀️天赦日", "2026-12-16": "☀️天赦日"
+            // 他の月も同様にここへ追加可能
         };
 
-        let selectedDate = "";
-        const grid = document.getElementById('calendarGrid');
-        const modal = document.getElementById('modal');
-        const noteInput = document.getElementById('noteInput');
+        // 十二支を計算する関数 (1867/2/5が寅の日であることを基準に簡易計算)
+        function getZodiacIcon(year, month, day) {
+            const date = new Date(year, month, day);
+            const baseDate = new Date(1900, 0, 1); // 基準日
+            const diffDays = Math.floor((date - baseDate) / (1000 * 60 * 60 * 24));
+            const zodiacIndex = (diffDays + 10) % 12; // 0:子, 1:丑, 2:寅...
+            if (zodiacIndex === 2) return "🐯";
+            if (zodiacIndex === 5) return "🐍";
+            return null;
+        }
 
-        function initCalendar() {
-            const now = new Date();
-            let year = 2026;
-            let month = now.getMonth(); // 実行時の月を表示
-            if (now.getFullYear() > 2026) month = 0; // 2026年以降なら1月を表示
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+            document.getElementById('currentMonth').innerText = `${currentYear}年 ${currentMonth + 1}月`;
 
-            document.getElementById('monthDisplay').innerText = `${year}年 ${month + 1}月`;
-            
-            // 曜日のラベル
-            const days = ['日','月','火','水','木','金','土'];
-            days.forEach(d => {
-                const el = document.createElement('div');
-                el.className = 'day-label';
-                el.innerText = d;
-                grid.appendChild(el);
+            ['日','月','火','水','木','金','土'].forEach(w => {
+                const div = document.createElement('div');
+                div.className = 'weekday'; div.innerText = w; grid.appendChild(div);
             });
 
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-            // 空白
-            for(let i=0; i<firstDay; i++) {
-                grid.appendChild(document.createElement('div'));
-            }
+            for(let i=0; i<firstDay; i++) grid.appendChild(document.createElement('div'));
 
-            // 日付
             for(let d=1; d<=daysInMonth; d++) {
-                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
                 const dayEl = document.createElement('div');
                 dayEl.className = 'day';
-                dayEl.innerText = d;
-                
-                // 今日の判定
-                const today = new Date();
-                if(today.getFullYear()===year && today.getMonth()===month && today.getDate()===d) {
-                    dayEl.classList.add('today');
-                }
+                dayEl.innerHTML = `<span>${d}</span>`;
 
-                // 吉日判定
-                if(luckyDays[dateStr]) {
-                    const dot = document.createElement('div');
-                    dot.className = 'lucky-dot';
-                    dayEl.appendChild(dot);
-                }
+                const icons = [];
+                // 固定吉日のチェック
+                if(fixedLuckyDays[dateStr]) icons.push(fixedLuckyDays[dateStr]);
+                // 十二支のチェック (寅・巳)
+                const zodiac = getZodiacIcon(currentYear, currentMonth, d);
+                if(zodiac) icons.push(zodiac);
 
-                // メモあり判定
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'icon-container';
+                icons.forEach(icon => {
+                    const span = document.createElement('span');
+                    span.className = 'icon'; span.innerText = icon;
+                    iconDiv.appendChild(span);
+                });
+                dayEl.appendChild(iconDiv);
+
                 if(localStorage.getItem(dateStr)) {
                     const dot = document.createElement('div');
-                    dot.className = 'note-indicator';
-                    dayEl.appendChild(dot);
+                    dot.className = 'note-dot'; dayEl.appendChild(dot);
                 }
 
-                dayEl.onclick = () => openModal(dateStr);
+                dayEl.onclick = () => openModal(dateStr, icons.join(' '));
                 grid.appendChild(dayEl);
             }
         }
 
-        function openModal(date) {
+        function openModal(date, lucky) {
             selectedDate = date;
-            document.getElementById('modalDate').innerText = date.replace(/-/g, '/');
-            document.getElementById('luckyText').innerText = luckyDays[date] || "";
-            noteInput.value = localStorage.getItem(date) || "";
-            modal.style.display = 'flex';
+            document.getElementById('modalDate').innerText = date;
+            document.getElementById('luckyText').innerHTML = lucky ? `<span class="lucky-label">${lucky}</span>` : "";
+            document.getElementById('noteInput').value = localStorage.getItem(date) || "";
+            document.getElementById('modal').style.display = 'flex';
         }
 
-        function closeModal() {
-            modal.style.display = 'none';
-        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
         function saveNote() {
-            localStorage.setItem(selectedDate, noteInput.value);
-            closeModal();
-            location.reload(); // 状態更新のためリロード
+            localStorage.setItem(selectedDate, document.getElementById('noteInput').value);
+            closeModal(); renderCalendar();
         }
 
-        initCalendar();
+        function changeMonth(diff) {
+            currentMonth += diff;
+            if(currentMonth > 11) { currentMonth = 0; currentYear++; }
+            if(currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+        }
+
+        renderCalendar();
     </script>
 </body>
 </html>
