@@ -48,19 +48,44 @@ const calendar=document.getElementById("calendar")
 
 function generateCalendar(){
 
+calendar.innerHTML=""
+
+/* 曜日 /
+const week=["日","月","火","水","木","金","土"]
+
+for(let w of week){
+
+const div=document.createElement("div")
+div.className="day"
+div.innerText=w
+calendar.appendChild(div)
+
+}
+
 const now=new Date()
 
 const year=now.getFullYear()
 const month=now.getMonth()
 
+/ 月の最初の曜日 /
+const firstDay=new Date(year,month,1).getDay()
+
+/ 月の日数 /
 const lastDay=new Date(year,month+1,0).getDate()
 
+/ 空白 /
+for(let i=0;i<firstDay;i++){
+
+const empty=document.createElement("div")
+calendar.appendChild(empty)
+
+}
+
+/ 日付 */
 for(let d=1;d<=lastDay;d++){
 
 const div=document.createElement("div")
-
 div.className="day"
-
 div.innerText=d
 
 calendar.appendChild(div)
@@ -70,7 +95,6 @@ calendar.appendChild(div)
 }
 
 generateCalendar()
-
 </script>
 
 </body>
