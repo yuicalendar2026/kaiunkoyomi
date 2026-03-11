@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-
 body{
 font-family:-apple-system;
 margin:0;
@@ -17,7 +16,7 @@ color:white;
 header{
 text-align:center;
 padding:20px;
-font-size:22px;
+font-size:24px;
 }
 
 #calendar{
@@ -29,106 +28,40 @@ padding:10px;
 
 .day{
 background:#1b2b34;
-border-radius:10px;
-padding:15px;
-text-align:center;
-cursor:pointer;
-}
-
-.day:hover{
-background:#223a45;
-}
-
-#detail{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#111;
 padding:20px;
-display:none;
-border-radius:20px 20px 0 0;
-}
-
-textarea{
-width:100%;
-height:80px;
-}
-
-button{
-margin-top:10px;
-padding:10px 20px;
-border:none;
+text-align:center;
 border-radius:10px;
 }
-
 </style>
+
 </head>
 
 <body>
 
-<header>🌙 開運カレンダー</header>
+<header>開運カレンダー</header>
 
 <div id="calendar"></div>
 
-<div id="detail">
-
-<h3 id="dateTitle"></h3>
-
-<textarea id="memo"></textarea><br>
-
-<button id="saveBtn">保存</button>
-<button id="closeBtn">閉じる</button>
-
-</div>
-
 <script>
 
-document.addEventListener("DOMContentLoaded", function(){
-
 const calendar=document.getElementById("calendar")
-const detail=document.getElementById("detail")
-const memo=document.getElementById("memo")
-const dateTitle=document.getElementById("dateTitle")
-const saveBtn=document.getElementById("saveBtn")
-const closeBtn=document.getElementById("closeBtn")
 
 function generateCalendar(){
 
-calendar.innerHTML=""
-
 const now=new Date()
+
 const year=now.getFullYear()
 const month=now.getMonth()
 
-const firstDay=new Date(year,month,1).getDay()
 const lastDay=new Date(year,month+1,0).getDate()
-
-for(let i=0;i<firstDay;i++){
-
-const empty=document.createElement("div")
-calendar.appendChild(empty)
-
-}
 
 for(let d=1;d<=lastDay;d++){
 
-const date=new Date(year,month,d)
-
 const div=document.createElement("div")
+
 div.className="day"
 
 div.innerText=d
-
-div.onclick=function(){
-
-detail.style.display="block"
-
-dateTitle.innerText=date.toDateString()
-
-memo.value=localStorage.getItem(dateTitle.innerText)||""
-
-}
 
 calendar.appendChild(div)
 
@@ -136,23 +69,7 @@ calendar.appendChild(div)
 
 }
 
-saveBtn.onclick=function(){
-
-localStorage.setItem(dateTitle.innerText,memo.value)
-
-alert("保存しました")
-
-}
-
-closeBtn.onclick=function(){
-
-detail.style.display="none"
-
-}
-
 generateCalendar()
-
-})
 
 </script>
 
