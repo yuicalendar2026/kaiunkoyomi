@@ -88,7 +88,11 @@ const key=`${y}-${m}-${d}`
 const div=document.createElement("div")
 div.className="day"
 
-const r=getRokuyo(date)
+const r = getRokuyo(
+date.getFullYear(),
+date.getMonth()+1,
+date.getDate()
+)
 
 const moon=moonAge(date)
 
