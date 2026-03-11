@@ -2,10 +2,9 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>開運カレンダーPRO</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>開運カレンダー完全版</title>
 
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
@@ -18,9 +17,8 @@ color:white;
 
 header{
 text-align:center;
-font-size:26px;
 padding:20px;
-letter-spacing:3px;
+font-size:24px;
 }
 
 #calendar{
@@ -31,19 +29,14 @@ padding:10px;
 }
 
 .day{
-background:rgba(255,255,255,0.08);
-border-radius:14px;
-padding:12px;
+background:rgba(255,255,255,0.1);
+border-radius:12px;
+padding:10px;
 cursor:pointer;
-}
-
-.day:hover{
-background:rgba(255,255,255,0.2);
 }
 
 .event{
 font-size:10px;
-opacity:.9;
 }
 
 #detail{
@@ -53,23 +46,13 @@ left:0;
 right:0;
 background:#111;
 padding:20px;
-border-radius:20px 20px 0 0;
 display:none;
+border-radius:20px 20px 0 0;
 }
 
 textarea{
 width:100%;
 height:80px;
-border-radius:10px;
-border:none;
-padding:10px;
-}
-
-button{
-margin-top:10px;
-padding:10px 20px;
-border-radius:10px;
-border:none;
 }
 
 </style>
@@ -77,7 +60,7 @@ border:none;
 
 <body>
 
-<header>🌙 開運カレンダーPRO</header>
+<header>🌙 開運カレンダー</header>
 
 <div id="calendar"></div>
 
@@ -92,17 +75,9 @@ border:none;
 <button onclick="saveMemo()">保存</button>
 <button onclick="closeDetail()">閉じる</button>
 
-<div id="shrine"></div>
-
 </div>
 
 <script src="app.js"></script>
-
-<script>
-if('serviceWorker' in navigator){
-navigator.serviceWorker.register('sw.js')
-}
-</script>
 
 </body>
 </html>
