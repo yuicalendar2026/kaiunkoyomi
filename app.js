@@ -1,21 +1,18 @@
-const calendar=document.getElementById("calendar")
+const calendar = document.getElementById("calendar")
 
 /* 六曜 */
 
-const rokuyo=["先勝","友引","先負","仏滅","大安","赤口"]
-
-const baseDate=new Date("2026-03-05")
-const baseIndex=4
+const rokuyo = [
+"先勝","友引","先負","仏滅","大安","赤口"
+]
 
 function getRokuyo(date){
 
-let diff=Math.floor((date-baseDate)/86400000)
+const base = new Date(2020,0,1)
 
-let index=(baseIndex+diff)%6
+const diff = Math.floor((date-base)/86400000)
 
-if(index<0) index+=6
-
-return rokuyo[index]
+return rokuyo[(diff+2)%6]
 
 }
 
@@ -24,47 +21,64 @@ return rokuyo[index]
 
 function moonAge(date){
 
-const lp=2551443
-const newMoon=new Date(1970,0,7,20,35,0)
+const lp = 2551443
+const newMoon = new Date(1970,0,7,20,35,0)
 
-const phase=(date-newMoon)/1000%lp
+const phase = (date-newMoon)/1000%lp
 
 return Math.floor(phase/(24*3600))
 
 }
 
 
-/* 開運日データ */
+/* 干支 */
 
-const luckyDays={
-
-"2026-03-05":[
-"💰一粒万倍日",
-"💎天赦日",
-"🐯寅の日"
-],
-
-"2026-03-10":[
-"💰一粒万倍日"
-],
-
-"2026-03-17":[
-"🐍巳の日"
-],
-
-"2026-03-22":[
-"🐯寅の日"
+const eto=[
+"子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"
 ]
+
+function etoDay(date){
+
+const base=new Date(2020,0,1)
+
+const diff=Math.floor((date-base)/86400000)
+
+return eto[diff%12]
 
 }
 
 
-/* ラッキー */
+/* 開運日 */
 
-const colors=["金","白","紫","青","赤"]
-const flowers=["桜","薔薇","蘭","椿","百合"]
-const items=["財布","アクセサリー","本","鏡","香水"]
+function luckyDay(date){
 
+let list=[]
+
+const eto=etoDay(date)
+
+if(eto=="寅") list.push("🐯寅の日")
+
+if(eto=="巳") list.push("🐍巳の日")
+
+/* 簡易 一粒万倍日 */
+
+if(date.getDate()%9==0) list.push("💰一粒万倍日")
+
+/* 天赦日（年数回） */
+
+if(
+(date.getMonth()==2 && date.getDate()==5) ||
+(date.getMonth()==7 && date.getDate()==12)
+){
+list.push("💎天赦日")
+}
+
+return list.join(" ")
+
+}
+
+
+/* カレンダー */
 
 function generateCalendar(){
 
@@ -79,20 +93,11 @@ for(let i=1;i<=last;i++){
 
 const date=new Date(year,month,i)
 
-const y=date.getFullYear()
-const m=(date.getMonth()+1).toString().padStart(2,"0")
-const d=i.toString().padStart(2,"0")
-
-const key=`${y}-${m}-${d}`
-
 const div=document.createElement("div")
+
 div.className="day"
 
-const r = getRokuyo(
-date.getFullYear(),
-date.getMonth()+1,
-date.getDate()
-)
+const r=getRokuyo(date)
 
 const moon=moonAge(date)
 
@@ -101,13 +106,15 @@ let moonIcon=""
 if(moon==0) moonIcon="🌑"
 if(moon==14) moonIcon="🌕"
 
-let lucky=luckyDays[key]?luckyDays[key].join(" "):""
+const lucky=luckyDay(date)
 
 div.innerHTML=`
+
 <b>${i}</b>
 <div class="event">${r}</div>
 <div class="event">${moonIcon}</div>
 <div class="event">${lucky}</div>
+
 `
 
 div.onclick=()=>openDetail(date)
@@ -125,24 +132,13 @@ detail.style.display="block"
 
 dateTitle.innerText=date.toDateString()
 
-let color=colors[Math.floor(Math.random()*colors.length)]
-
-let flower=flowers[Math.floor(Math.random()*flowers.length)]
-
-let item=items[Math.floor(Math.random()*items.length)]
-
 fortune.innerHTML=`
-
-🎨ラッキーカラー：${color}<br>
-🌸ラッキーフラワー：${flower}<br>
-🍀ラッキーアイテム：${item}<br>
-🧭吉方位：東南
-
+ラッキーカラー：金<br>
+ラッキーフラワー：桜<br>
+ラッキーアイテム：財布
 `
 
-memo.value=localStorage.getItem(dateTitle.innerText)||""
-
-showShrine()
+memo.value=localStorage.getItem(date)||""
 
 }
 
@@ -151,52 +147,15 @@ function saveMemo(){
 
 localStorage.setItem(dateTitle.innerText,memo.value)
 
-alert("保存しました")
+alert("保存")
 
 }
 
 
 function closeDetail(){
+
 detail.style.display="none"
-}
-
-
-/* 神社検索 */
-
-function showShrine(){
-
-navigator.geolocation.getCurrentPosition(pos=>{
-
-let lat=pos.coords.latitude
-let lon=pos.coords.longitude
-
-shrine.innerHTML=`
-<br>
-<a target="_blank"
-href="https://www.google.com/maps/search/神社/@${lat},${lon},12z">
-⛩ 吉方位の神社を探す
-</a>
-`
-
-})
 
 }
-const rokuyoNames = ["大安","赤口","先勝","友引","先負","仏滅"];
 
-function getRokuyo(year, month, day){
-
-// 旧暦簡易計算
-const base = new Date(1900,0,31); // 旧暦基準
-const target = new Date(year,month-1,day);
-
-const diff = Math.floor((target-base)/86400000);
-
-const lunarMonth = Math.floor(diff / 29.5306) % 12 + 1;
-const lunarDay = diff % 29 + 1;
-
-const index = (lunarMonth + lunarDay) % 6;
-
-return rokuyoNames[index];
-
-}
 generateCalendar()
